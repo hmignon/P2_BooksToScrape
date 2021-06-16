@@ -8,11 +8,12 @@ Dans Windows Powershell, naviguer vers le dossier souhaité.
 
 ## Activer l'environnement virtuel
     $ cd P2_mignon_helene 
-    $ python3 -m venv env 
+    $ python -m venv env 
     $ source env/bin/activate
 
 ## Installer les paquets requis
     $ pip install -r requirements.txt
 
 ## Lancer le script
-    $ python3 getBookInfo.py
+    $ python getBookInfo.py
+    

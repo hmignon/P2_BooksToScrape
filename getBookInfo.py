@@ -10,16 +10,19 @@ import time
 
 def createCsvFile():
     for i in range (len(cat_url)):
-        csv_filename = cat_name[i].replace(' ', '_') + ".csv"
+        csv_filename = cat_name[i].lower().replace(' ', '_') + ".csv"
         results_directory = 'exports'
-        #results_path = os.path.join(results_directory, csv_filename)
         if not os.path.isdir(results_directory):
             os.mkdir(results_directory)
         with open('./exports/'+csv_filename, 'w', encoding='utf-8') as csvfile:
             book_csv = csv.writer(csvfile, delimiter=' ')
-            book_csv.writerow(['product_page_url', 'universal_product_code', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
+            book_csv.writerow(['product_page_url', 'universal_product_code', 'title', 'price_including_tax',
+                              'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url'])
         getCatPagesUrls(i, csv_filename)
 
+
+
+# get urls for all pages in each category
 
 def getCatPagesUrls(i, csv_filename):
     response = requests.get(cat_url[i])
@@ -47,6 +50,9 @@ def getCatPagesUrls(i, csv_filename):
             print(str(len(url_list)) + " book(s) exported")
        
 
+
+# get urls of all books in each page
+
 def getBookUrls(current_cat_pages, url_list, i, csv_filename):
     for n in range(len(current_cat_pages)):
         response2 = requests.get(current_cat_pages[n])
@@ -58,7 +64,9 @@ def getBookUrls(current_cat_pages, url_list, i, csv_filename):
         getProductInfo(url_list, cat_name, i, csv_filename)
 
 
-# get book info !
+
+# get all book info into a list
+
 def getProductInfo(url_list, cat_name, i, csv_filename):
     for m in range(len(url_list)):
         response3 = requests.get(url_list[m])
@@ -73,13 +81,17 @@ def getProductInfo(url_list, cat_name, i, csv_filename):
         description = soup.select_one("article > p").text
         img = soup.find("div", {"class": "item active"}).find("img")
         img_url = main_url + img["src"].replace("../../", "")
-        #getReviewRating(soup, info)
         info = [url_list[m], upc, title, pit, pec, available, description, cat_name[i], reviews, img_url]
         downloadImages(title, img_url,info, i)
         csvFileAdd(csv_filename, info)
         
         
 '''
+---------------------------
+Ne fonctionne pas correctement : semble récupérer le rating du premier livre 
+dans 'Products you recently viewed' mais pas celui du livre en cours...
+---------------------------
+
 def getReviewRating(soup, info):
     if soup.find("p", {"class": "star-rating One"}):
         review_rating = "1 star"
@@ -105,20 +117,17 @@ def csvFileAdd(csv_filename, info):
 
 def downloadImages(title, img_url, info, i):
     img_directory = 'exports/covers/'
-    #characters = [':', '/', u'U+005C', '"', '-', '*', '?']
-    #for c in range(len(characters)):
-        #clean_title = title.replace(characters[c], '_')
-    img_filename = cat_name[i].lower().replace(' ', '_') + "_" + title[:150].replace(':', '_').replace('/', '_').replace(u'U+005C', '_').replace('-', '_').replace('*', '_').replace('?', '_').replace(',', '_').replace('"', '_').replace(' ', '_') + '.jpg'
+    img_str = cat_name[i].lower() + title[:150]
+    img_filename = ''.join([x for x in img_str if x.isalnum()]) + '.jpg'      # remove all non-alphanumeric characters
     img_data = requests.get(img_url).content
     img_path = os.path.join(img_directory, img_filename)
     if not os.path.isdir(img_directory):
         os.mkdir(img_directory)
     file = open(img_path, "wb")
     file.write(img_data)
-    #info.append('.../covers/' + img_filename)
 
     
 if __name__ == "__main__":
     startTime = time.time()
     createCsvFile()
-    print ('The script took {0} second !'.format(time.time() - startTime))
+    print('All books exported in {0} seconds.'.format(time.time() - startTime))
