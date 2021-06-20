@@ -31,17 +31,18 @@ the entire website or only one category.
 '''
 
 def main():
-    print("\n\n-------------------------")
-    print("\nScraping books.toscrape.com\n")
-    print("-------------------------\n\n")
+    print("\n\n-----------------------------")
+    print("\n Scraping books.toscrape.com\n")
+    print("-----------------------------\n\n")
     time.sleep(1)
     main_url = 'https://books.toscrape.com/'
     response = requests.get(main_url)
     if response.status_code == 200:
-        print("\nconnection ok")
+        print("\n- connection ok -")
         soup = BeautifulSoup(response.text, 'html.parser')
         cat_name_list = [line.text.strip() for line in soup.select("ul > li > ul > li > a")]
         cat_url_list = [main_url + line["href"] for line in soup.select("ul > li > ul > li > a")]
+
 
 
     url = input('\n\nPaste the url you would like to scrape : ')
@@ -78,7 +79,7 @@ def main():
 def getCatName(cat_url):
     cat_name = cat_url.replace('https://books.toscrape.com/catalogue/category/books/', '').replace('/index.html', '').replace('_', '').replace('-', ' ')
     cat_name = re.sub(r'[0-9]+', '', cat_name)  # remove all numbers from the string
-    print("\nExporting " + cat_name.title() + "n")
+    print("\nExporting " + cat_name.title() + "\n")
     return cat_name
 
 

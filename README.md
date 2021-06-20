@@ -1,19 +1,42 @@
 # P2_mignon_helene
-Livrable du Projet 2 de la formation OpenClassrooms D-A Python ; scraping de books.toscrape.com via BeautifulSoup4 ; exportation des infos dans fichiers .csv et des images de couverture dans dossier 'exports'.
+**Livrable du Projet 2 du parcours D-A Python d'OpenClassrooms :**
+Scraping de books.toscrape.com avec BeautifulSoup4 ; exportation des infos dans fichiers .csv et des images de couverture dans dossier 'exports'.
 
-## Récupération du projet
-Dans l'invite de commande, naviguer vers le dossier souhaité.
+_Note : ce programme invite l'utilisateur à copier l'url du site (https://books.toscrape.com/index.html) ou de la catégorie qu'il souhaite exporter._
+
+----------------------------------------------
+
+## Windows :
+Dans Windows Powershell, naviguer vers le dossier souhaité.
+### Récupération du projet
 
     $ git clone https://github.com/hmignon/P2_mignon_helene.git
 
-## Activer l'environnement virtuel
+### Activer l'environnement virtuel
     $ cd P2_mignon_helene 
     $ python -m venv env 
-    $ source env/bin/activate
-
-## Installer les paquets requis
+    $ ~env\scripts\activate
+    
+### Installer les paquets requis
     $ pip install -r requirements.txt
 
-## Lancer le script
+### Lancer le programme
     $ python Books_toScrape.py
     
+----------------------------------------------
+## MacOS et Linux :
+Dans le terminal, naviguer vers le dossier souhaité.
+### Récupération du projet
+
+    $ git clone https://github.com/hmignon/P2_mignon_helene.git
+
+### Activer l'environnement virtuel
+    $ cd P2_mignon_helene 
+    $ python3 -m venv env 
+    $ source env/bin/activate
+    
+### Installer les paquets requis
+    $ pip install -r requirements.txt
+
+### Lancer le programme
+    $ python3 Books_toScrape.py
