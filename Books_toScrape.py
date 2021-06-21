@@ -53,8 +53,8 @@ def main():
         time.sleep(1)
         for i in range(len(cat_url_list)):
             getCatPagesUrls(cat_url_list[i])
-        print('\n------END------')
         print('All books exported in {0} seconds.'.format(int(time.time()) - startTime))
+        print('\n------END------')
 
     elif url in cat_url_list:
         index = cat_url_list.index(url)
@@ -203,12 +203,16 @@ def csvFileAppend(csv_filename, info):
 
 def downloadImages(title, img_url, cat_name):
     img_directory = 'exports/cover_images/'
-    img_str = cat_name.lower() + ' ' + title[:150]
-    img_filename = ''.join([x for x in img_str if x.isalnum() or x in ' ']).replace(' ', '_') + '.jpg'      # remove all non-alphanumeric characters
+    img_category_dir = img_directory + cat_name + '/'
+    img_filename = ''.join([x for x in title[:150] if x.isalnum() or x in ' ']).replace(' ', '_') + '.jpg'      # remove all non-alphanumeric characters
     img_data = requests.get(img_url).content
-    img_path = os.path.join(img_directory, img_filename)
+
     if not os.path.isdir(img_directory):
         os.mkdir(img_directory)
+    img_path = os.path.join(img_category_dir, img_filename)
+    if not os.path.isdir(img_category_dir):
+        os.mkdir(img_category_dir)
+
     file = open(img_path, "wb")
     file.write(img_data)
 
