@@ -2,10 +2,9 @@
 **Livrable du Projet 2 du parcours D-A Python d'OpenClassrooms :**
 Scraping de books.toscrape.com avec BeautifulSoup4 ; exportation des infos dans fichiers .csv et des images de couverture dans dossier 'exports'.
 
-_Note : ce programme invite l'utilisateur à copier l'url du site (https://books.toscrape.com/index.html) ou de la catégorie qu'il souhaite exporter._
+_Notes : Ce programme invite l'utilisateur à copier l'url du site (https://books.toscrape.com/index.html) ou de la catégorie qu'il souhaite exporter. Testé sous Windows 10, Python 3.9.5._
 
 ----------------------------------------------
-
 ## Windows :
 Dans Windows Powershell, naviguer vers le dossier souhaité.
 ### Récupération du projet
@@ -21,7 +20,7 @@ Dans Windows Powershell, naviguer vers le dossier souhaité.
     $ pip install -r requirements.txt
 
 ### Lancer le programme
-    $ python Books_toScrape.py
+    $ python main.py
     
 ----------------------------------------------
 ## MacOS et Linux :
@@ -39,4 +38,4 @@ Dans le terminal, naviguer vers le dossier souhaité.
     $ pip install -r requirements.txt
 
 ### Lancer le programme
-    $ python3 Books_toScrape.py
+    $ python3 main.py
