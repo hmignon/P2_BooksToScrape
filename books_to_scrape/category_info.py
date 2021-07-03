@@ -11,8 +11,8 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-from book_info import get_book_info
-from export_data import create_csv_file
+from books_to_scrape.book_info import get_book_info
+from books_to_scrape.export_data import create_csv_file
 
 
 def get_cat_name(cat_url):
@@ -42,32 +42,31 @@ def get_cat_pages_urls(cat_url):
     """
     cat_name = get_cat_name(cat_url)
     response = requests.get(cat_url)
-    if response.ok:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        books_total = int(soup.select_one("form > strong").text)
-        if books_total > 20:
-            page_total = int(soup.find("li", {"class": "current"}).text.replace("Page 1 of", ""))
+    soup = BeautifulSoup(response.text, 'html.parser')
+    books_total = int(soup.select_one("form > strong").text)
+    if books_total > 20:
+        page_total = int(soup.find("li", {"class": "current"}).text.replace("Page 1 of", ""))
+    else:
+        page_total = 1
+
+    csv_filename = cat_name.lower().replace(' ', '_') + ".csv"
+    create_csv_file(csv_filename)
+
+    page_url = cat_url
+    current_cat_pages = [page_url]
+    for page in range(page_total):
+        if page == 0:
+            book_url_list = get_book_urls(current_cat_pages[0])
+            for k in range(len(book_url_list)):
+                get_book_info(book_url_list[k], cat_name, csv_filename)
         else:
-            page_total = 1
+            current_cat_pages.append(page_url.replace("index", "page-" + str(page + 1)))
+            book_url_list = get_book_urls(current_cat_pages[page])
+            for k in range(len(book_url_list)):
+                get_book_info(book_url_list[k], cat_name, csv_filename)
 
-        csv_filename = cat_name.lower().replace(' ', '_') + ".csv"
-        create_csv_file(csv_filename)
-
-        page_url = cat_url
-        current_cat_pages = [page_url]
-        for page in range(page_total):
-            if page == 0:
-                book_url_list = get_book_urls(current_cat_pages[0])
-                for k in range(len(book_url_list)):
-                    get_book_info(book_url_list[k], cat_name, csv_filename)
-            else:
-                current_cat_pages.append(page_url.replace("index", "page-" + str(page + 1)))
-                book_url_list = get_book_urls(current_cat_pages[page])
-                for k in range(len(book_url_list)):
-                    get_book_info(book_url_list[k], cat_name, csv_filename)
-
-        print(str(books_total) + " book(s) exported\n\n")
-        print('-----------------------------------------------')
+    print(str(books_total) + " book(s) exported\n\n")
+    print('-----------------------------------------------')
 
 
 def get_book_urls(cat_page):

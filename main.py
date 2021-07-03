@@ -16,7 +16,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-from category_info import get_cat_pages_urls
+from books_to_scrape.category_info import get_cat_pages_urls
 
 
 def main():
@@ -45,7 +45,7 @@ def main():
             print("\nExporting all categories...\n")
             for i in range(len(cat_url_list)):
                 get_cat_pages_urls(cat_url_list[i])
-            print('All books exported in {0} seconds.'.format(int(time.time()) - start_time))
+            timer(start_time)
             time.sleep(1)
             print('\n------END------')
 
@@ -53,7 +53,7 @@ def main():
             index = cat_url_list.index(url)
             cat_url = cat_url_list[index]
             get_cat_pages_urls(cat_url)
-            print('\n\nAll books exported in {0} seconds.'.format(int(time.time()) - start_time))
+            timer(start_time)
             time.sleep(1)
             print('\n------END------')
 
@@ -79,6 +79,14 @@ def main():
             print('Closing application...')
             time.sleep(2)
             exit()
+
+
+def timer(start_time):
+    end_time = int(time.time()) - start_time
+    mins = end_time // 60
+    secs = end_time % 60
+    end_time = '{:02d} mins {:02d} secs.'.format(mins, secs)
+    print('\n\nAll books exported in ' + end_time)
 
 
 if __name__ == "__main__":
