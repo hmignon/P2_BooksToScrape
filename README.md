@@ -1,8 +1,12 @@
 # P2_mignon_helene
+
 **Livrable du Projet 2 du parcours D-A Python d'OpenClassrooms :**
 Scraping de books.toscrape.com avec BeautifulSoup4 ; exportation des infos dans fichiers .csv et des images de couverture dans dossier 'exports'.
 
-_Notes : Ce programme invite l'utilisateur à copier l'url du site (https://books.toscrape.com/index.html) ou de la catégorie qu'il souhaite exporter. Testé sous Windows 10, Python 3.9.5._
+### Version optimisée post-formation
+Application de la POO pour le scraper. Optimisation des boucles et réduction du temps d'exécution. 
+
+_Testé sous Windows 10, Python 3.9.5._
 
 ----------------------------------------------
 ## Windows :
