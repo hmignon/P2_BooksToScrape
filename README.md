@@ -14,8 +14,6 @@
     </a>
 </p>
 
----
-
 # About the project
 
 **OpenClassrooms Python Developer Project #2: Use Python Basics for Market Analysis**
@@ -28,10 +26,12 @@ _Tested on Windows 10, Python 3.9.5._
 ### Post-course optimisation
 This project has been optimised after the end of the OpenClassrooms course. 
 To view the previous version, go to [this commit](https://github.com/hmignon/P2_mignon_helene/tree/163c5f5b2c730e7b308d01f31479702fb7c1e8e9).
+
 Improvements made to this project include:
 - Using OOP for the main scraper 
 - Parsing of command line arguments for options
 - Optimising loops for faster execution time
+- Json export
 
 # Setup
 
