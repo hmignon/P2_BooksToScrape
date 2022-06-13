@@ -1,45 +1,89 @@
-# P2_mignon_helene
+<p align="center">
+    <img src="img/logo_bookstore.png" alt="logo" />
+</p>
+<h1 align="center">Scraping <em>BooksToScrape</em></h1>
+<p align="center">
+    <a href="https://www.python.org">
+        <img src="https://img.shields.io/badge/Python-3.6+-3776AB?style=flat&logo=python&logoColor=white" alt="python-badge">
+    </a>
+    <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">
+        <img src="https://img.shields.io/badge/BeautifulSoup-4.9+-d71b60?style=flat" alt="Beautiful Soup">
+    </a>
+    <a href="https://github.com/psf/requests">
+        <img src="https://img.shields.io/badge/Requests-2.25+-00838f?style=flat" alt="Requests">
+    </a>
+</p>
 
-**Livrable du Projet 2 du parcours D-A Python d'OpenClassrooms :**
-Scraping de books.toscrape.com avec BeautifulSoup4 ; exportation des infos dans fichiers .csv et des images de couverture dans dossier 'exports'.
+---
 
-### Version optimisée post-formation
-Application de la POO pour le scraper. Optimisation des boucles et réduction du temps d'exécution. 
+# About the project
 
-_Testé sous Windows 10, Python 3.9.5._
+**OpenClassrooms Python Developer Project #2: Use Python Basics for Market Analysis**
 
-----------------------------------------------
-## Windows :
-Dans Windows Powershell, naviguer vers le dossier souhaité.
-### Récupération du projet
+Scraping of [books.toscrape.com](https://books.toscrape.com) with **BeautifulSoup4** and **Requests**, 
+export data to .csv files and download cover images to *exports* folder.
 
-    $ git clone https://github.com/hmignon/P2_mignon_helene.git
+_Tested on Windows 10, Python 3.9.5._
 
-### Activer l'environnement virtuel
-    $ cd P2_mignon_helene 
-    $ python -m venv env 
-    $ ~env\scripts\activate
+### Post-course optimisation
+This project has been optimised after the end of the OpenClassrooms course. 
+To view the previous version, go to [this commit](https://github.com/hmignon/P2_mignon_helene/tree/163c5f5b2c730e7b308d01f31479702fb7c1e8e9).
+Improvements made to this project include:
+- Using OOP for the main scraper 
+- Parsing of command line arguments for options
+- Optimising loops for faster execution time
+
+# Setup
+
+### Clone the repository
+
+- `git clone https://github.com/hmignon/P2_mignon_helene.git`
+
+### Create the virtual environment
+
+- `cd P2_mignon_helene`
+- `python -m venv env`
+- Activate the environment `source env/bin/activate` (MacOS and Linux) or `env\Scripts\activate` (Windows)
     
-### Installer les paquets requis
-    $ pip install -r requirements.txt
+### Install required packages
 
-### Lancer le programme
-    $ python main.py
-    
-----------------------------------------------
-## MacOS et Linux :
-Dans le terminal, naviguer vers le dossier souhaité.
-### Récupération du projet
+- `pip install -r requirements.txt`
 
-    $ git clone https://github.com/hmignon/P2_mignon_helene.git
+## Run the project
 
-### Activer l'environnement virtuel
-    $ cd P2_mignon_helene 
-    $ python3 -m venv env 
-    $ source env/bin/activate
-    
-### Installer les paquets requis
-    $ pip install -r requirements.txt
+In order to scrape the entirety of [books.toscrape.com](https://books.toscrape.com) to .csv files, 
+use the command `python main.py`
 
-### Lancer le programme
-    $ python3 main.py
+You can scrape one category via the argument `--category`. This argument takes either a **category name** or **full url**. 
+For example, the 2 following commands would yield the same results:
+
+```
+python main.py --category travel
+- OR -
+python main.py --category https://books.toscrape.com/catalogue/category/books/travel_2/index.html
+```
+
+A **json** export option has been added, as it is marginally faster than exporting to **csv**. 
+Both export types can be used in the same scraping process.
+
+```
+python main.py -j OR --json
+python main.py -c OR --csv
+python main.py -c -j
+```
+
+Cover images download can be skipped via `--ignore-covers`
+
+**Full list of optional arguments:**
+
+<p align="center">
+    <img src="img/help.png" alt="help" />
+</p>
+
+### Using csv files
+
+If you wish to open the exported csv files in any spreadsheet software (Microsoft Excel, LibreOffice/OpenOffice Calc, Google Sheets...),
+please make sure to select the following options:
+- UTF-8 encoding 
+- comma (,) as *separator*
+- double-quote (") as *string delimiter*
