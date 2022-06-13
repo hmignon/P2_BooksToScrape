@@ -1,92 +1,32 @@
-# -*- coding: utf-8 -*-
-
-"""
-===================================================================
-                    SCRAPING BOOKS.TOSCRAPE.COM
-
-This program will scrape books information from books.toscrape.com 
-with BeautifulSoup4, export the data to .csv files and download the
-cover images to an 'exports' folder
-===================================================================
-
-"""
-
+import argparse
 import time
 
-import requests
-from bs4 import BeautifulSoup
+from scraper import BookScraper
 
-from books_to_scrape.category_info import get_cat_pages_urls
+
+def timer(start):
+    end_time = int(time.time()) - start
+    print(f"\n\nBooks exported in {end_time // 60} mins {end_time % 60} secs.")
 
 
 def main():
-    """
-    Prompt the user to choose whether they want to scrape
-    the entire website or only one category
-    Get all category urls into a list
-    If 1 category, compare user input to list
-    """
-    print("\n\n-----------------------------")
-    print("\n Scraping books.toscrape.com\n")
-    print("-----------------------------\n\n")
-    time.sleep(1)
-    main_url = 'https://books.toscrape.com/'
-    response = requests.get(main_url)
+    parser = argparse.ArgumentParser(
+        description="BooksToScrape",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument("-c", "--csv", action="store_true", help="Export to csv files")
+    parser.add_argument("-j", "--json", action="store_true", help="Export to json files")
+    parser.add_argument("--ignore-covers", action="store_true", help="Skip cover downloads")
+    parser.add_argument("--category", type=str, nargs="?", default=None, help="Scrape one category (name or full url)")
+    args = parser.parse_args()
+    config = vars(args)
+    if not config["json"] and not config["csv"]:
+        config["csv"] = True
 
-    if response.status_code == 200:
-        print("\n- connection ok -")
-        soup = BeautifulSoup(response.text, 'html.parser')
-        cat_url_list = [main_url + line["href"] for line in soup.select("ul > li > ul > li > a")]
-
-        url = input('\n\nPaste the url you would like to scrape : ')
-        start_time = int(time.time())
-
-        if url.replace('index.html', '') == main_url:
-            print("\nExporting all categories...\n")
-            for i in range(len(cat_url_list)):
-                get_cat_pages_urls(cat_url_list[i])
-            timer(start_time)
-            time.sleep(1)
-            print('\n------END------')
-
-        elif url in cat_url_list:
-            index = cat_url_list.index(url)
-            cat_url = cat_url_list[index]
-            get_cat_pages_urls(cat_url)
-            timer(start_time)
-            time.sleep(1)
-            print('\n------END------')
-
-        else:
-            print('\n\nPlease enter a valid url (full website or one category).\n\n')
-            time.sleep(2)
-            main()
-
-    else:
-        response.raise_for_status()
-        print("\n- connection error -")
-        print("Please check connection status.")
-        time.sleep(1)
-        retry = input("Retry? (y/n) :").lower().strip()
-        while retry != "y" != "n":
-            print("input error")
-            retry = input("Retry? (y/n) :").lower().strip()
-        if retry == "y":
-            print("Restarting...")
-            time.sleep(2)
-            main()
-        elif retry == "n":
-            print('Closing application...')
-            time.sleep(2)
-            exit()
-
-
-def timer(start_time):
-    end_time = int(time.time()) - start_time
-    mins = end_time // 60
-    secs = end_time % 60
-    end_time = '{:02d} mins {:02d} secs.'.format(mins, secs)
-    print('\n\nAll books exported in ' + end_time)
+    start = int(time.time())
+    scraper = BookScraper()
+    scraper.start_scraper(config)
+    timer(start)
 
 
 if __name__ == "__main__":
