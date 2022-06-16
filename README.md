@@ -18,22 +18,32 @@
 
 **OpenClassrooms Python Developer Project #2: Use Python Basics for Market Analysis**
 
-Scraping of [books.toscrape.com](https://books.toscrape.com) with **BeautifulSoup4** and **Requests**, 
-export data to .csv files and download cover images to *exports* folder.
-
 _Tested on Windows 10, Python 3.9.5._
 
-### Post-course optimisation
+### Objectives
+
+Scraping of [books.toscrape.com](http://books.toscrape.com) with **BeautifulSoup4** and **Requests**, 
+export data to .csv files and download cover images to the *"exports"* folder.
+
+Implementation of the ETL process: 
+- **E**xtract relevant and specific data from the source website; 
+- **T**ransform, filter and clean data;
+- **L**oad data into searchable and retrievable files.
+
+## Post-course optimisation
 This project has been optimised after the end of the OpenClassrooms course. 
-To view the previous version, go to [this commit](https://github.com/hmignon/P2_mignon_helene/tree/163c5f5b2c730e7b308d01f31479702fb7c1e8e9).
+To view the previously delivered version, please check [this commit](https://github.com/hmignon/P2_mignon_helene/tree/163c5f5b2c730e7b308d01f31479702fb7c1e8e9).
 
 Improvements made to this project include:
-- Using OOP for the main scraper 
-- Parsing of command line arguments for options
+- Using OOP for the main scraper
 - Optimising loops for faster execution time
-- Json export
+- Parsing of command line arguments for options:
+  - Json export option
+  - Ignore images option
+  - One-file export option
+- Progress bars (tqdm)
 
-# Setup
+# Usage
 
 ### Clone the repository
 
@@ -43,47 +53,50 @@ Improvements made to this project include:
 
 - `cd P2_mignon_helene`
 - `python -m venv env`
-- Activate the environment `source env/bin/activate` (MacOS and Linux) or `env\Scripts\activate` (Windows)
+- Activate the environment `source env/bin/activate` (macOS and Linux) or `env\Scripts\activate` (Windows)
     
 ### Install required packages
 
 - `pip install -r requirements.txt`
 
-## Run the project
+# Run the project
 
-In order to scrape the entirety of [books.toscrape.com](https://books.toscrape.com) to .csv files, 
-use the command `python main.py`
+To scrape the entirety of [books.toscrape.com](https://books.toscrape.com) to .csv files, 
+use the command `python main.py`.
 
-You can scrape one category via the argument `--category`. This argument takes either a **category name** or **full url**. 
+## Options
+
+**Use `python main.py --help` to view all options.**
+
+- `--categories`: Scrape one or several categories. This argument takes **category names** and/or **full urls**. 
 For example, the 2 following commands would yield the same results:
 
 ```
-python main.py --category travel
-- OR -
-python main.py --category https://books.toscrape.com/catalogue/category/books/travel_2/index.html
+main.py --categories travel
+main.py --categories http://books.toscrape.com/catalogue/category/books/travel_2/index.html
 ```
 
-A **json** export option has been added, as it is marginally faster than exporting to **csv**. 
-Both export types can be used in the same scraping process.
+To scrape a selection of categories, add selected names and/or urls separated by one space.
+
+Note: selecting the same category several times (e.g. `python main.py --categories travel travel`) will only export data once.
 
 ```
-python main.py -j OR --json
-python main.py -c OR --csv
-python main.py -c -j
+main.py --categories classics thriller
+main.py --categories http://books.toscrape.com/catalogue/category/books/classics_6/index.html thriller
 ```
 
-Cover images download can be skipped via `--ignore-covers`
+- `-c` or `--csv`: Export data to .csv files.
+- `-j` or `--json`: Export data to .json files. 
 
-**Full list of optional arguments:**
+Note: `-j` and `-c` can be used concurrently to export to both formats during the same scraping process.
 
-<p align="center">
-    <img src="img/help.png" alt="help" />
-</p>
+- `--one-file` : Export all data to a single .csv/.json file.
+- `--ignore-covers`: Skip cover images downloads.
 
-### Using csv files
+## Using .csv files
 
-If you wish to open the exported csv files in any spreadsheet software (Microsoft Excel, LibreOffice/OpenOffice Calc, Google Sheets...),
+If you wish to open the exported .csv files in any spreadsheet software (Microsoft Excel, LibreOffice/OpenOffice Calc, Google Sheets...),
 please make sure to select the following options:
 - UTF-8 encoding 
-- comma (,) as *separator*
-- double-quote (") as *string delimiter*
+- comma `,` as *separator*
+- double quote `"` as *string delimiter*
