@@ -43,7 +43,7 @@ Improvements made to this project include:
   - One-file export option
 - Progress bars (tqdm)
 
-# Usage
+# Setup
 
 ### Clone the repository
 
@@ -59,7 +59,7 @@ Improvements made to this project include:
 
 - `pip install -r requirements.txt`
 
-# Run the project
+# Usage
 
 To scrape the entirety of [books.toscrape.com](https://books.toscrape.com) to .csv files, 
 use the command `python main.py`.
